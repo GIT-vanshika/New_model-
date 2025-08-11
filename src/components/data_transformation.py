@@ -30,7 +30,7 @@ class DataTransformation:
         "race_ethnicity",
         "parental_level_of_education",
         "lunch",
-        "test_prepration_course",
+        "test_preparation_course",
       ]
 
       num_pipeline= Pipeline(
@@ -44,7 +44,7 @@ class DataTransformation:
         steps=[
           ("imputer", SimpleImputer(strategy="most_frequent")),
           ("one_hot_encoder", OneHotEncoder()),
-          ("scaler", StandardScaler())
+          ("scaler", StandardScaler(with_mean=False))
         ]
       )
 
@@ -111,4 +111,13 @@ class DataTransformation:
     
     except Exception as e:
       raise CustomException(e,sys)
+    
+if __name__ == "__main__":
+    obj = DataTransformation()
+    train_arr, test_arr, preprocessor_path = obj.initiate_data_transformation(
+        train_path="artifacts/train.csv",
+        test_path="artifacts/test.csv"
+    )
+    print("Preprocessor saved at:", preprocessor_path)
+
 
